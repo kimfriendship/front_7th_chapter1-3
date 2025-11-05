@@ -51,7 +51,6 @@ it('정의된 이벤트 정보를 기준으로 적절하게 저장이 된다', a
   await act(() => Promise.resolve(null));
 
   const newEvent: Event = {
-    id: '1',
     title: '새 회의',
     date: '2025-10-16',
     startTime: '11:00',
@@ -61,11 +60,13 @@ it('정의된 이벤트 정보를 기준으로 적절하게 저장이 된다', a
     category: '업무',
     repeat: { type: 'none', interval: 0 },
     notificationTime: 10,
-  };
+  } as Event;
 
   await act(async () => {
     await result.current.saveEvent(newEvent);
   });
+
+  await act(() => Promise.resolve(null)); // fetchEvents 완료 대기
 
   expect(result.current.events).toEqual([{ ...newEvent, id: '1' }]);
 });

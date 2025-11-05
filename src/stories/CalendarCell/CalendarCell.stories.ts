@@ -31,6 +31,7 @@ const event: Event = {
 
 export const Default: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [],
@@ -40,6 +41,7 @@ export const Default: Story = {
 
 export const CalendarCellWithEvents: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [{ ...event }],
@@ -49,6 +51,7 @@ export const CalendarCellWithEvents: Story = {
 
 export const CalendarCellWithRepeatingEvents: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [{ ...event, repeat: { type: 'weekly', interval: 1 } }],
@@ -58,6 +61,7 @@ export const CalendarCellWithRepeatingEvents: Story = {
 
 export const CalendarCellWithNotifiedEvents: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [{ ...event }],
@@ -67,6 +71,7 @@ export const CalendarCellWithNotifiedEvents: Story = {
 
 export const CalendarCellWithNotifiedRepeatingEvents: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [{ ...event, repeat: { type: 'weekly', interval: 1 } }],
@@ -81,6 +86,7 @@ const longTextEvent: Event = {
 
 export const CalendarCellWithLongText: Story = {
   args: {
+    currentDate: new Date('2025-10-15'),
     day: 3,
     holiday: '개천절',
     events: [],
@@ -109,6 +115,7 @@ export const CalendarCellWithLongText: Story = {
           },
         },
         React.createElement(CalendarCell, {
+          currentDate: new Date('2025-10-15'),
           day: 3,
           holiday: '개천절',
           events: [longTextEvent],
@@ -128,6 +135,7 @@ export const CalendarCellWithLongText: Story = {
           },
         },
         React.createElement(CalendarCell, {
+          currentDate: new Date('2025-10-15'),
           day: 3,
           holiday: '개천절',
           events: [longTextEvent],
@@ -147,6 +155,7 @@ export const CalendarCellWithLongText: Story = {
           },
         },
         React.createElement(CalendarCell, {
+          currentDate: new Date('2025-10-15'),
           day: 3,
           holiday: '개천절',
           events: [longTextEvent],
