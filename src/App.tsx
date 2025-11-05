@@ -70,6 +70,10 @@ function App() {
 
   const [isOverlapDialogOpen, setIsOverlapDialogOpen] = useState(false);
   const [overlappingEvents, setOverlappingEvents] = useState<Event[]>([]);
+  const [pendingMoveEvent, setPendingMoveEvent] = useState<{
+    eventId: string;
+    targetDate: string;
+  } | null>(null);
   const [isRecurringDialogOpen, setIsRecurringDialogOpen] = useState(false);
   const [pendingRecurringEdit, setPendingRecurringEdit] = useState<Event | null>(null);
   const [pendingRecurringDelete, setPendingRecurringDelete] = useState<Event | null>(null);
@@ -141,7 +145,16 @@ function App() {
       date: targetDate,
     };
 
-    // 일반 이벤트 저장 로직 (나중에 겹침 검증과 반복 일정 처리 추가 예정)
+    // 겹침 검증
+    const overlapping = findOverlappingEvents(updatedEvent, events);
+    if (overlapping.length > 0) {
+      setOverlappingEvents(overlapping);
+      setPendingMoveEvent({ eventId, targetDate });
+      setIsOverlapDialogOpen(true);
+      return;
+    }
+
+    // 일반 이벤트 저장 로직 (나중에 반복 일정 처리 추가 예정)
     try {
       await saveEvent(updatedEvent);
       enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
@@ -149,6 +162,47 @@ function App() {
     } catch (error) {
       enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
     }
+  };
+
+  const handleOverlapConfirm = async () => {
+    setIsOverlapDialogOpen(false);
+
+    if (!pendingMoveEvent) return;
+
+    const eventToMove = events.find((e) => e.id === pendingMoveEvent.eventId);
+    if (!eventToMove) {
+      enqueueSnackbar('일정을 찾을 수 없습니다.', { variant: 'error' });
+      setPendingMoveEvent(null);
+      return;
+    }
+
+    // 날짜 형식 검증
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(pendingMoveEvent.targetDate)) {
+      enqueueSnackbar('유효하지 않은 날짜입니다.', { variant: 'error' });
+      setPendingMoveEvent(null);
+      return;
+    }
+
+    const updatedEvent: Event = {
+      ...eventToMove,
+      date: pendingMoveEvent.targetDate,
+    };
+
+    // 일반 이벤트 저장 (나중에 반복 일정 처리 추가 예정)
+    try {
+      await saveEvent(updatedEvent);
+      enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
+      await fetchEvents();
+    } catch (error) {
+      enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
+    }
+
+    setPendingMoveEvent(null);
+  };
+
+  const handleOverlapCancel = () => {
+    setIsOverlapDialogOpen(false);
+    setPendingMoveEvent(null);
   };
 
   const addOrUpdateEvent = async () => {
@@ -283,26 +337,8 @@ function App() {
       <OverlapDialog
         open={isOverlapDialogOpen}
         overlappingEvents={overlappingEvents}
-        onClose={() => setIsOverlapDialogOpen(false)}
-        onConfirm={() => {
-          setIsOverlapDialogOpen(false);
-          saveEvent({
-            id: editingEvent ? editingEvent.id : undefined,
-            title,
-            date,
-            startTime,
-            endTime,
-            description,
-            location,
-            category,
-            repeat: {
-              type: isRepeating ? repeatType : 'none',
-              interval: repeatInterval,
-              endDate: repeatEndDate || undefined,
-            },
-            notificationTime,
-          });
-        }}
+        onClose={handleOverlapCancel}
+        onConfirm={handleOverlapConfirm}
       />
 
       <RecurringEventDialog

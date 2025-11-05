@@ -63,8 +63,23 @@ export default function CalendarViewControls({
     const { eventId, sourceDate } = dragData;
 
     // over에서 드롭 대상 날짜 추출
-    // CalendarCell의 id 형식: "cell-YYYY-MM-DD" 또는 날짜 문자열
-    const targetDate = typeof over.id === 'string' ? over.id.replace('cell-', '') : String(over.id);
+    // CalendarCell의 id 형식: "cell-YYYY-MM-DD"
+    let targetDate: string;
+    if (typeof over.id === 'string') {
+      if (over.id.startsWith('cell-')) {
+        targetDate = over.id.replace('cell-', '');
+      } else {
+        // 날짜 형식이 아닌 경우 무시
+        return;
+      }
+    } else {
+      targetDate = String(over.id);
+    }
+
+    // YYYY-MM-DD 형식인지 확인
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+      return;
+    }
 
     // 같은 날짜로 드롭한 경우 무시
     if (sourceDate === targetDate) {

@@ -65,7 +65,11 @@ export default function CalendarCell({
             </Typography>
           )}
           {events.map((event: Event) => (
-            <EventBar key={event.id} isNotified={notifiedEvents.includes(event.id)} event={event} />
+            <EventBar
+              key={`${cellDate}-${event.id}`}
+              isNotified={notifiedEvents.includes(event.id)}
+              event={event}
+            />
           ))}
         </>
       )}

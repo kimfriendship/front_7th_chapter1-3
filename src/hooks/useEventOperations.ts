@@ -40,7 +40,10 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
   const saveEvent = async (eventData: Event | EventForm) => {
     try {
       let response;
-      if (editing) {
+      // id가 있으면 업데이트, 없으면 생성
+      const isUpdate = !!(eventData as Event).id;
+
+      if (isUpdate) {
         const editingEvent = {
           ...eventData,
           // ! TEST CASE
@@ -70,7 +73,7 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
 
       await fetchEvents();
       onSave?.();
-      enqueueSnackbar(editing ? SUCCESS_MESSAGES.EVENT_UPDATED : SUCCESS_MESSAGES.EVENT_ADDED, {
+      enqueueSnackbar(isUpdate ? SUCCESS_MESSAGES.EVENT_UPDATED : SUCCESS_MESSAGES.EVENT_ADDED, {
         variant: 'success',
       });
     } catch (error) {
