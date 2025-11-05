@@ -4,12 +4,12 @@ Phase 1: 기본 날짜 클릭 기능 (작업 1-13)
 
 CalendarCell 컴포넌트 수정 (1-6)
 
-1. ⏳ Props 타입에 onDateClick, isEditing 추가
+1. ✅ Props 타입에 onDateClick, isEditing 추가
 
    - `onDateClick?: (date: string) => void` prop 추가
    - `isEditing?: boolean` prop 추가 (기본값: false)
 
-2. ⏳ handleCellClick 핸들러 구현
+2. ✅ handleCellClick 핸들러 구현
 
    - 클릭 이벤트 핸들러 함수 생성
    - `day === null` 체크 → 조기 반환
@@ -18,21 +18,21 @@ CalendarCell 컴포넌트 수정 (1-6)
    - `isEditing === true` 체크 → 조기 반환 (편집 모드 무시)
    - 조건 통과 시 `onDateClick?.(cellDate)` 호출
 
-3. ⏳ TableCell에 onClick 핸들러 연결
+3. ✅ TableCell에 onClick 핸들러 연결
 
    - `onClick={handleCellClick}` 추가
 
-4. ⏳ 조건부 커서 스타일 추가
+4. ✅ 조건부 커서 스타일 추가
 
    - `cursor: day && events.length === 0 && !isEditing ? 'pointer' : 'default'`
 
-5. ⏳ 호버 효과 추가 (선택사항)
+5. ✅ 호버 효과 추가 (선택사항)
 
    - `'&:hover'` 조건부 스타일 추가
    - 조건: `day && events.length === 0 && !isEditing`
    - 배경색: `backgroundColor: '#f5f5f5'`
 
-6. ⏳ 날짜 문자열 생성 로직 확인
+6. ✅ 날짜 문자열 생성 로직 확인
 
    - `formatDate(currentDate, day)` 사용 확인
    - `cellDate` 변수에 저장되어 있는지 확인
@@ -191,7 +191,7 @@ Phase 3: UX 개선 (작업 17-19) - 선택사항
 
 ### 필수 작업 (Phase 1-2)
 
-- [ ] CalendarCell 컴포넌트 수정 (1-6)
+- [x] CalendarCell 컴포넌트 수정 (1-6)
 - [ ] App.tsx 핸들러 구현 (7-8)
 - [ ] CalendarViewControls 수정 (9-10)
 - [ ] MonthlyCalendar 수정 (11)
