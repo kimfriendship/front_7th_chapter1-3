@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/core';
 import { Notifications, Repeat } from '@mui/icons-material';
 import { Box, Stack, Tooltip, Typography } from '@mui/material';
 import { Event } from '../../types';
@@ -9,10 +10,21 @@ interface EventBarProps {
 }
 
 export default function EventBar({ isNotified, event }: EventBarProps) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `event-${event.id}`,
+    data: {
+      eventId: event.id,
+      sourceDate: event.date,
+    },
+  });
+
   const isRepeating = event.repeat.type !== 'none';
 
   return (
     <Box
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
       sx={{
         p: 0.5,
         my: 0.5,
@@ -23,6 +35,10 @@ export default function EventBar({ isNotified, event }: EventBarProps) {
         minHeight: '18px',
         width: '100%',
         overflow: 'hidden',
+        opacity: isDragging ? 0.6 : 1,
+        cursor: 'grab',
+        transition: 'opacity 0.2s ease',
+        '&:active': { cursor: 'grabbing' },
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '100%' }}>

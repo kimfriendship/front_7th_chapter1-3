@@ -57,6 +57,7 @@ export default function MonthlyCalendar({
                       holiday={holiday}
                       events={dayEvents}
                       notifiedEvents={notifiedEvents}
+                      currentDate={currentDate}
                     />
                   );
                 })}

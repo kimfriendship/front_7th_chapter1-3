@@ -1,5 +1,7 @@
 import { TableCell, Typography } from '@mui/material';
+import { useDroppable } from '@dnd-kit/core';
 import { Event } from '../../types';
+import { formatDate } from '../../utils/dateUtils';
 import EventBar from '../EventBar/EventBar';
 
 interface CalendarCellProps {
@@ -7,11 +9,27 @@ interface CalendarCellProps {
   events: Event[];
   notifiedEvents: Event['id'][];
   holiday?: string;
+  currentDate: Date;
+  onDropEvent?: (eventId: string, targetDate: string) => void;
 }
 
-export default function CalendarCell({ day, holiday, events, notifiedEvents }: CalendarCellProps) {
+export default function CalendarCell({
+  day,
+  holiday,
+  events,
+  notifiedEvents,
+  currentDate,
+  onDropEvent,
+}: CalendarCellProps) {
+  const cellDate = day ? formatDate(currentDate, day) : null;
+  const { setNodeRef, isOver } = useDroppable({
+    id: cellDate ? `cell-${cellDate}` : `cell-null-${Math.random()}`,
+    disabled: day === null,
+  });
+
   return (
     <TableCell
+      ref={setNodeRef}
       sx={{
         height: '120px',
         width: '100%',
@@ -23,6 +41,8 @@ export default function CalendarCell({ day, holiday, events, notifiedEvents }: C
         overflow: 'hidden',
         position: 'relative',
         boxSizing: 'border-box',
+        backgroundColor: isOver ? '#fff3e0' : 'white',
+        transition: 'background-color 0.2s ease',
       }}
     >
       {day && (

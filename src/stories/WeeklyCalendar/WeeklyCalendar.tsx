@@ -52,6 +52,7 @@ export default function WeeklyCalendar({
                     day={date.getDate()}
                     events={dayEvents}
                     notifiedEvents={notifiedEvents}
+                    currentDate={date}
                   />
                 );
               })}

@@ -127,6 +127,30 @@ function App() {
     }
   };
 
+  const handleMoveEvent = async (eventId: string, targetDate: string) => {
+    // 이벤트 찾기
+    const eventToMove = events.find((e) => e.id === eventId);
+    if (!eventToMove) {
+      enqueueSnackbar('일정을 찾을 수 없습니다.', { variant: 'error' });
+      return;
+    }
+
+    // 날짜만 업데이트한 이벤트 객체 생성
+    const updatedEvent: Event = {
+      ...eventToMove,
+      date: targetDate,
+    };
+
+    // 일반 이벤트 저장 로직 (나중에 겹침 검증과 반복 일정 처리 추가 예정)
+    try {
+      await saveEvent(updatedEvent);
+      enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
+      await fetchEvents();
+    } catch (error) {
+      enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
+    }
+  };
+
   const addOrUpdateEvent = async () => {
     if (!title || !date || !startTime || !endTime) {
       enqueueSnackbar('필수 정보를 모두 입력해주세요.', { variant: 'error' });
@@ -243,6 +267,7 @@ function App() {
           filteredEvents={filteredEvents}
           notifiedEvents={notifiedEvents}
           holidays={holidays}
+          onMoveEvent={handleMoveEvent}
         />
 
         <EventList
