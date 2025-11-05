@@ -1,12 +1,5 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
-
+import { Typography } from '@mui/material';
+import Dialog from '../stories/Dialog/Dialog.tsx';
 import { Event } from '../types';
 
 /**
@@ -82,32 +75,39 @@ const RecurringEventDialog = ({
 
   const config = DIALOG_CONFIG[mode];
 
+  const actions = [
+    {
+      label: BUTTON_TEXT.cancel,
+      onClick: onClose,
+      color: 'inherit' as const,
+      variant: 'text' as const,
+    },
+    {
+      label: BUTTON_TEXT.no,
+      onClick: handleSeriesOperation,
+      color: 'primary' as const,
+      variant: 'outlined' as const,
+    },
+    {
+      label: BUTTON_TEXT.yes,
+      onClick: handleSingleOperation,
+      color: 'primary' as const,
+      variant: 'contained' as const,
+    },
+  ];
+
   return (
     <Dialog
       open={open}
       onClose={onClose}
+      title={config.title}
+      actions={actions}
       maxWidth="sm"
       fullWidth
-      aria-labelledby="recurring-event-dialog-title"
-      aria-describedby="recurring-event-dialog-description"
+      ariaLabelledby="recurring-event-dialog-title"
+      ariaDescribedby="recurring-event-dialog-description"
     >
-      <DialogTitle id="recurring-event-dialog-title">{config.title}</DialogTitle>
-
-      <DialogContent>
-        <Typography id="recurring-event-dialog-description">{config.message}</Typography>
-      </DialogContent>
-
-      <DialogActions>
-        <Button onClick={onClose} color="inherit">
-          {BUTTON_TEXT.cancel}
-        </Button>
-        <Button onClick={handleSeriesOperation} variant="outlined" color="primary">
-          {BUTTON_TEXT.no}
-        </Button>
-        <Button onClick={handleSingleOperation} variant="contained" color="primary">
-          {BUTTON_TEXT.yes}
-        </Button>
-      </DialogActions>
+      <Typography id="recurring-event-dialog-description">{config.message}</Typography>
     </Dialog>
   );
 };
