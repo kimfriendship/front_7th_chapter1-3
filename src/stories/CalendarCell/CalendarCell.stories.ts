@@ -1,4 +1,5 @@
 import type { StoryObj } from '@storybook/react-vite';
+import React from 'react';
 
 import CalendarCell from './CalendarCell';
 import { Event } from '../../types';
@@ -70,5 +71,88 @@ export const CalendarCellWithNotifiedRepeatingEvents: Story = {
     holiday: '개천절',
     events: [{ ...event, repeat: { type: 'weekly', interval: 1 } }],
     notifiedEvents: ['1'],
+  },
+};
+
+const longTextEvent: Event = {
+  ...event,
+  title: '매우 긴 텍스트가 포함된 이벤트 제목입니다. 이 텍스트는 ellipsis 처리가 되어야 합니다.',
+};
+
+export const CalendarCellWithLongText: Story = {
+  args: {
+    day: 3,
+    holiday: '개천절',
+    events: [],
+    notifiedEvents: [],
+  },
+  render: () => {
+    return React.createElement(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          gap: '16px',
+          alignItems: 'flex-start',
+        },
+      },
+      React.createElement(
+        'div',
+        {
+          style: {
+            width: '50px',
+            maxWidth: '50px',
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            display: 'table',
+            tableLayout: 'fixed',
+          },
+        },
+        React.createElement(CalendarCell, {
+          day: 3,
+          holiday: '개천절',
+          events: [longTextEvent],
+          notifiedEvents: [],
+        })
+      ),
+      React.createElement(
+        'div',
+        {
+          style: {
+            width: '100px',
+            maxWidth: '100px',
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            display: 'table',
+            tableLayout: 'fixed',
+          },
+        },
+        React.createElement(CalendarCell, {
+          day: 3,
+          holiday: '개천절',
+          events: [longTextEvent],
+          notifiedEvents: [],
+        })
+      ),
+      React.createElement(
+        'div',
+        {
+          style: {
+            width: '200px',
+            maxWidth: '200px',
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+            display: 'table',
+            tableLayout: 'fixed',
+          },
+        },
+        React.createElement(CalendarCell, {
+          day: 3,
+          holiday: '개천절',
+          events: [longTextEvent],
+          notifiedEvents: [],
+        })
+      )
+    );
   },
 };

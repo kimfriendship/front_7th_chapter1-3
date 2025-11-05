@@ -25,7 +25,7 @@ export default function EventBar({ isNotified, event }: EventBarProps) {
         overflow: 'hidden',
       }}
     >
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={1} alignItems="center" sx={{ width: '100%' }}>
         {isNotified && <Notifications fontSize="small" />}
         {/* ! TEST CASE */}
         {isRepeating && (
@@ -37,7 +37,18 @@ export default function EventBar({ isNotified, event }: EventBarProps) {
             <Repeat fontSize="small" />
           </Tooltip>
         )}
-        <Typography variant="caption" noWrap sx={{ fontSize: '0.75rem', lineHeight: 1.2 }}>
+        <Typography
+          variant="caption"
+          noWrap
+          sx={{
+            fontSize: '0.75rem',
+            lineHeight: 1.2,
+            flex: 1,
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {event.title}
         </Typography>
       </Stack>

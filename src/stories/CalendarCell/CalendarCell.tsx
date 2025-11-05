@@ -14,12 +14,15 @@ export default function CalendarCell({ day, holiday, events, notifiedEvents }: C
     <TableCell
       sx={{
         height: '120px',
+        width: '100%',
+        maxWidth: '100%',
+        minWidth: 0,
         verticalAlign: 'top',
-        width: '14.28%',
         padding: 1,
         border: '1px solid #e0e0e0',
         overflow: 'hidden',
         position: 'relative',
+        boxSizing: 'border-box',
       }}
     >
       {day && (
@@ -28,7 +31,16 @@ export default function CalendarCell({ day, holiday, events, notifiedEvents }: C
             {day}
           </Typography>
           {holiday && (
-            <Typography variant="body2" color="error">
+            <Typography
+              variant="body2"
+              color="error"
+              noWrap
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '100%',
+              }}
+            >
               {holiday}
             </Typography>
           )}
