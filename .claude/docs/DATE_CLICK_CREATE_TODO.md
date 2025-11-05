@@ -39,32 +39,32 @@ CalendarCell 컴포넌트 수정 (1-6)
 
 App.tsx 날짜 클릭 핸들러 구현 (7-8)
 
-7. ⏳ handleDateClick 함수 구현
+7. ✅ handleDateClick 함수 구현
 
    - `date: string` 파라미터 받기
    - `editingEvent`가 있으면 조기 반환 (편집 모드 무시)
    - `setDate(date)` 호출하여 날짜 설정
 
-8. ⏳ CalendarViewControls에 props 전달
+8. ✅ CalendarViewControls에 props 전달
 
    - `onDateClick={handleDateClick}` 전달
    - `isEditing={!!editingEvent}` 전달
 
 CalendarViewControls 컴포넌트 수정 (9-10)
 
-9. ⏳ Props 타입에 onDateClick, isEditing 추가
+9. ✅ Props 타입에 onDateClick, isEditing 추가
 
    - `onDateClick?: (date: string) => void` prop 추가
    - `isEditing?: boolean` prop 추가 (기본값: false)
 
-10. ⏳ MonthlyCalendar 및 WeeklyCalendar에 props 전달
+10. ✅ MonthlyCalendar 및 WeeklyCalendar에 props 전달
 
     - `onDateClick={onDateClick}` 전달
     - `isEditing={isEditing}` 전달
 
 MonthlyCalendar 수정 (11)
 
-11. ⏳ Props 타입에 onDateClick, isEditing 추가 및 CalendarCell에 전달
+11. ✅ Props 타입에 onDateClick, isEditing 추가 및 CalendarCell에 전달
 
     - `onDateClick?: (date: string) => void` prop 추가
     - `isEditing?: boolean` prop 추가 (기본값: false)
@@ -73,7 +73,7 @@ MonthlyCalendar 수정 (11)
 
 WeeklyCalendar 수정 (12)
 
-12. ⏳ Props 타입에 onDateClick, isEditing 추가 및 CalendarCell에 전달
+12. ✅ Props 타입에 onDateClick, isEditing 추가 및 CalendarCell에 전달
 
     - `onDateClick?: (date: string) => void` prop 추가
     - `isEditing?: boolean` prop 추가 (기본값: false)
@@ -192,10 +192,10 @@ Phase 3: UX 개선 (작업 17-19) - 선택사항
 ### 필수 작업 (Phase 1-2)
 
 - [x] CalendarCell 컴포넌트 수정 (1-6)
-- [ ] App.tsx 핸들러 구현 (7-8)
-- [ ] CalendarViewControls 수정 (9-10)
-- [ ] MonthlyCalendar 수정 (11)
-- [ ] WeeklyCalendar 수정 (12)
+- [x] App.tsx 핸들러 구현 (7-8)
+- [x] CalendarViewControls 수정 (9-10)
+- [x] MonthlyCalendar 수정 (11)
+- [x] WeeklyCalendar 수정 (12)
 - [ ] 편집 모드 처리 (14-15)
 
 ### 선택 작업 (Phase 3)

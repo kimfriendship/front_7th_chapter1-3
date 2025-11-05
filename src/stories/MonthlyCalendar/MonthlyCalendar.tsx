@@ -18,6 +18,8 @@ interface MonthlyCalendarProps {
   events: Event[];
   holidays: Record<string, string>;
   notifiedEvents: string[];
+  onDateClick?: (date: string) => void;
+  isEditing?: boolean;
 }
 
 export default function MonthlyCalendar({
@@ -25,6 +27,8 @@ export default function MonthlyCalendar({
   events,
   holidays,
   notifiedEvents,
+  onDateClick,
+  isEditing = false,
 }: MonthlyCalendarProps) {
   const weeks = getWeeksAtMonth(currentDate);
 
@@ -58,6 +62,8 @@ export default function MonthlyCalendar({
                       events={dayEvents}
                       notifiedEvents={notifiedEvents}
                       currentDate={currentDate}
+                      onDateClick={onDateClick}
+                      isEditing={isEditing}
                     />
                   );
                 })}

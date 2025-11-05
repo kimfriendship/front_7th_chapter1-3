@@ -17,11 +17,15 @@ interface WeeklyCalendarProps {
   currentDate: Date;
   events: Event[];
   notifiedEvents: Event['id'][];
+  onDateClick?: (date: string) => void;
+  isEditing?: boolean;
 }
 export default function WeeklyCalendar({
   currentDate,
   events,
   notifiedEvents,
+  onDateClick,
+  isEditing = false,
 }: WeeklyCalendarProps) {
   const weekDates = getWeekDates(currentDate);
 
@@ -53,6 +57,8 @@ export default function WeeklyCalendar({
                     events={dayEvents}
                     notifiedEvents={notifiedEvents}
                     currentDate={date}
+                    onDateClick={onDateClick}
+                    isEditing={isEditing}
                   />
                 );
               })}
