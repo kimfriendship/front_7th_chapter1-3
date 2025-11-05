@@ -56,13 +56,11 @@ function App() {
     () => setEditingEvent(null)
   );
 
-  const { handleRecurringEdit, handleRecurringDelete } = useRecurringEventOperations(
-    events,
-    async () => {
+  const { handleRecurringEdit, handleRecurringDelete, findRelatedRecurringEvents } =
+    useRecurringEventOperations(events, async () => {
       // After recurring edit, refresh events from server
       await fetchEvents();
-    }
-  );
+    });
 
   const { notifications, notifiedEvents, setNotifications } = useNotifications(events);
   const { view, setView, currentDate, holidays, navigate } = useCalendarView();
@@ -78,7 +76,9 @@ function App() {
   const [pendingRecurringEdit, setPendingRecurringEdit] = useState<Event | null>(null);
   const [pendingRecurringDelete, setPendingRecurringDelete] = useState<Event | null>(null);
   const [recurringEditMode, setRecurringEditMode] = useState<boolean | null>(null); // true = single, false = all
-  const [recurringDialogMode, setRecurringDialogMode] = useState<'edit' | 'delete'>('edit');
+  const [recurringDialogMode, setRecurringDialogMode] = useState<'edit' | 'delete' | 'move'>(
+    'edit'
+  );
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -100,6 +100,72 @@ function App() {
       }
       setIsRecurringDialogOpen(false);
       setPendingRecurringDelete(null);
+    } else if (recurringDialogMode === 'move' && pendingRecurringEdit && pendingMoveEvent) {
+      // 반복 일정 이동 처리
+      const updatedEvent: Event = {
+        ...pendingRecurringEdit,
+        date: pendingMoveEvent.targetDate,
+        repeat: editSingleOnly ? { type: 'none', interval: 0 } : pendingRecurringEdit.repeat,
+      };
+
+      if (editSingleOnly) {
+        // 단일 이벤트로 변환하여 이동
+        try {
+          await saveEvent(updatedEvent);
+          enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
+          await fetchEvents();
+        } catch (error) {
+          enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
+        }
+      } else {
+        // 전체 시리즈 이동 (날짜 차이 계산하여 모든 관련 이벤트 업데이트)
+        try {
+          // 최신 이벤트 목록에서 관련 이벤트 찾기
+          const currentEvent = events.find((e) => e.id === pendingRecurringEdit.id);
+          if (!currentEvent) {
+            enqueueSnackbar('일정을 찾을 수 없습니다.', { variant: 'error' });
+            setIsRecurringDialogOpen(false);
+            setPendingRecurringEdit(null);
+            setPendingMoveEvent(null);
+            return;
+          }
+
+          const relatedEvents = findRelatedRecurringEvents(currentEvent);
+
+          // 날짜 차이 계산 (원본 날짜 기준)
+          const sourceDate = new Date(currentEvent.date);
+          const targetDate = new Date(pendingMoveEvent.targetDate);
+          const dateDiff = targetDate.getTime() - sourceDate.getTime();
+
+          // 모든 관련 이벤트 업데이트 (현재 이벤트 포함)
+          // relatedEvents에 현재 이벤트가 포함되어 있으므로 별도 처리 불필요
+          const eventsToUpdate = relatedEvents.length > 0 ? relatedEvents : [currentEvent];
+
+          const updatePromises = eventsToUpdate.map((event) => {
+            const eventDate = new Date(event.date);
+            const newDate = new Date(eventDate.getTime() + dateDiff);
+            const newDateString = newDate.toISOString().split('T')[0];
+
+            return saveEvent({
+              ...event,
+              date: newDateString,
+              // repeat 속성 유지 (반복 일정 속성 유지)
+              repeat: event.repeat,
+            });
+          });
+
+          await Promise.all(updatePromises);
+          enqueueSnackbar('반복 일정 전체가 이동되었습니다.', { variant: 'success' });
+          await fetchEvents();
+        } catch (error) {
+          console.error(error);
+          enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
+        }
+      }
+
+      setIsRecurringDialogOpen(false);
+      setPendingRecurringEdit(null);
+      setPendingMoveEvent(null);
     }
   };
 
@@ -139,10 +205,12 @@ function App() {
       return;
     }
 
-    // 날짜만 업데이트한 이벤트 객체 생성
+    // 반복 일정인 경우 단일 일정으로 변환
     const updatedEvent: Event = {
       ...eventToMove,
       date: targetDate,
+      // 반복 일정이면 단일 일정으로 변환
+      repeat: isRecurringEvent(eventToMove) ? { type: 'none', interval: 0 } : eventToMove.repeat,
     };
 
     // 겹침 검증
@@ -154,7 +222,7 @@ function App() {
       return;
     }
 
-    // 일반 이벤트 저장 로직 (나중에 반복 일정 처리 추가 예정)
+    // 이벤트 저장 로직
     try {
       await saveEvent(updatedEvent);
       enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
@@ -183,12 +251,15 @@ function App() {
       return;
     }
 
+    // 반복 일정인 경우 단일 일정으로 변환
     const updatedEvent: Event = {
       ...eventToMove,
       date: pendingMoveEvent.targetDate,
+      // 반복 일정이면 단일 일정으로 변환
+      repeat: isRecurringEvent(eventToMove) ? { type: 'none', interval: 0 } : eventToMove.repeat,
     };
 
-    // 일반 이벤트 저장 (나중에 반복 일정 처리 추가 예정)
+    // 이벤트 저장
     try {
       await saveEvent(updatedEvent);
       enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
