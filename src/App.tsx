@@ -197,6 +197,16 @@ function App() {
     }
   };
 
+  const handleDateClick = (date: string) => {
+    // 편집 모드인 경우 무시
+    if (editingEvent) {
+      return;
+    }
+
+    // 날짜 설정
+    setDate(date);
+  };
+
   const handleMoveEvent = async (eventId: string, targetDate: string) => {
     // 이벤트 찾기
     const eventToMove = events.find((e) => e.id === eventId);
@@ -393,6 +403,8 @@ function App() {
           notifiedEvents={notifiedEvents}
           holidays={holidays}
           onMoveEvent={handleMoveEvent}
+          onDateClick={handleDateClick}
+          isEditing={!!editingEvent}
         />
 
         <EventList

@@ -21,6 +21,8 @@ interface CalendarViewControlsProps {
   notifiedEvents: string[];
   holidays: Record<string, string>;
   onMoveEvent?: (eventId: string, targetDate: string) => void;
+  onDateClick?: (date: string) => void;
+  isEditing?: boolean;
 }
 
 export default function CalendarViewControls({
@@ -32,6 +34,8 @@ export default function CalendarViewControls({
   notifiedEvents,
   holidays,
   onMoveEvent,
+  onDateClick,
+  isEditing = false,
 }: CalendarViewControlsProps) {
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -122,6 +126,8 @@ export default function CalendarViewControls({
             currentDate={currentDate}
             events={filteredEvents}
             notifiedEvents={notifiedEvents}
+            onDateClick={onDateClick}
+            isEditing={isEditing}
           />
         )}
         {view === 'month' && (
@@ -130,6 +136,8 @@ export default function CalendarViewControls({
             events={filteredEvents}
             holidays={holidays}
             notifiedEvents={notifiedEvents}
+            onDateClick={onDateClick}
+            isEditing={isEditing}
           />
         )}
       </DndContext>
