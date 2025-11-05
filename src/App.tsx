@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
 import RecurringEventDialog from './components/RecurringEventDialog.tsx';
-import EventForm from './components/EventForm.tsx';
+import EventForm from './stories/EventForm/EventForm.tsx';
 import CalendarViewControls from './components/CalendarViewControls.tsx';
 import EventList from './components/EventList.tsx';
 import OverlapDialog from './components/OverlapDialog.tsx';
@@ -227,8 +227,8 @@ function App() {
           setRepeatEndDate={setRepeatEndDate}
           notificationTime={notificationTime}
           setNotificationTime={setNotificationTime}
-          startTimeError={startTimeError}
-          endTimeError={endTimeError}
+          startTimeError={startTimeError ?? undefined}
+          endTimeError={endTimeError ?? undefined}
           editingEvent={editingEvent}
           handleStartTimeChange={handleStartTimeChange}
           handleEndTimeChange={handleEndTimeChange}
