@@ -91,12 +91,12 @@ WeeklyCalendar 수정 (12)
 
 Phase 2: 편집 모드 처리 (작업 14-15)
 
-14. ⏳ 편집 모드 감지 로직 확인
+14. ✅ 편집 모드 감지 로직 확인
 
     - `editingEvent`가 `null`이 아닌 경우 편집 모드로 판단
     - App.tsx에서 `isEditing={!!editingEvent}` 전달 확인
 
-15. ⏳ 편집 모드 중 날짜 클릭 방지 확인
+15. ✅ 편집 모드 중 날짜 클릭 방지 확인
 
     - CalendarCell의 `handleCellClick`에서 `isEditing` 체크 확인
     - App.tsx의 `handleDateClick`에서 `editingEvent` 체크 확인
@@ -196,7 +196,7 @@ Phase 3: UX 개선 (작업 17-19) - 선택사항
 - [x] CalendarViewControls 수정 (9-10)
 - [x] MonthlyCalendar 수정 (11)
 - [x] WeeklyCalendar 수정 (12)
-- [ ] 편집 모드 처리 (14-15)
+- [x] 편집 모드 처리 (14-15)
 
 ### 선택 작업 (Phase 3)
 
