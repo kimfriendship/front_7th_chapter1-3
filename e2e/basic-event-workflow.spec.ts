@@ -11,9 +11,6 @@ test.describe('기본 일정 관리 워크플로우 (CRUD)', () => {
     const fixedTime = new Date('2025-11-15T09:00:00');
     await page.clock.install({ time: fixedTime });
     await page.clock.resume();
-
-    // 페이지로 이동
-    await page.goto('/');
   });
 
   test('1.1 페이지 로드 시 저장된 일정 표시', async ({ page }) => {

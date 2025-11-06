@@ -12,9 +12,6 @@ test.describe('일정 겹침 처리', () => {
     await page.clock.install({ time: fixedTime });
     await page.clock.resume();
 
-    // 페이지로 이동
-    await page.goto('/');
-
     // 초기 토스트 사라질 때까지 대기
     await page.waitForTimeout(1000);
   });

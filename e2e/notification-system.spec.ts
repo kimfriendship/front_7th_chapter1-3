@@ -7,9 +7,6 @@ test.describe('알림 시스템', () => {
     // e2e.json 파일을 초기 상태로 리셋
     resetE2EDatabase();
 
-    // 페이지로 이동
-    await page.goto('/');
-
     // 초기 토스트 사라질 때까지 대기
     await page.waitForTimeout(1000);
   });
