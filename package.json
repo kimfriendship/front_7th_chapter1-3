@@ -23,7 +23,7 @@
     "lint": "pnpm lint:eslint && pnpm lint:tsc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_c1a97ad15c6c034"
+    "chromatic": "npx chromatic --project-token=env.CHROMATIC_PROJECT_TOKEN"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
