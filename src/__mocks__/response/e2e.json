@@ -1,0 +1,16 @@
+{
+  "events": [
+    {
+      "id": "e2e-test-event-1",
+      "title": "기존 회의",
+      "date": "2025-11-15",
+      "startTime": "09:00",
+      "endTime": "10:00",
+      "description": "E2E 테스트용 초기 일정",
+      "location": "회의실 A",
+      "category": "업무",
+      "repeat": { "type": "none", "interval": 0 },
+      "notificationTime": 10
+    }
+  ]
+}
