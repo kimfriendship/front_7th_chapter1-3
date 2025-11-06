@@ -7,6 +7,11 @@ test.describe.serial('반복 일정 관리 워크플로우', () => {
     // e2e.json 파일을 초기 상태로 리셋
     resetE2EDatabase();
 
+    // 시간을 고정 (2025-11-17 09:00:00 - 월요일)
+    const fixedTime = new Date('2025-11-17T09:00:00');
+    await page.clock.install({ time: fixedTime });
+    await page.clock.resume();
+
     // 페이지로 이동
     await page.goto('/');
 

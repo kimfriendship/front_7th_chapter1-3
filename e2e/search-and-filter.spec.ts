@@ -7,6 +7,11 @@ test.describe.serial('검색 및 필터링', () => {
     // e2e.json 파일을 빈 상태로 초기화 (매번 새로운 일정 생성)
     clearE2EDatabase();
 
+    // 시간을 고정 (2025-11-15 09:00:00)
+    const fixedTime = new Date('2025-11-15T09:00:00');
+    await page.clock.install({ time: fixedTime });
+    await page.clock.resume();
+
     // 페이지로 이동
     await page.goto('/');
 
@@ -133,7 +138,6 @@ test.describe.serial('검색 및 필터링', () => {
     // 현재 날짜에 따라 표시되는 일정이 다를 수 있음
 
     // 다음 주 버튼 클릭
-    await page.getByLabel('Next').click();
     await page.getByLabel('Next').click();
     await expect(eventList.getByText('첫째 주 회의').first()).toBeVisible();
 
