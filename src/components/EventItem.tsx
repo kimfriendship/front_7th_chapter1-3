@@ -1,5 +1,6 @@
 import { Delete, Edit, Notifications, Repeat } from '@mui/icons-material';
 import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+
 import { notificationOptions } from '../constants.ts';
 import { Event } from '../types.ts';
 import { getRepeatTypeLabel } from '../utils/repeatUtils.ts';

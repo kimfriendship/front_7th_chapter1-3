@@ -2,18 +2,18 @@ import { Box, Stack } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-import RecurringEventDialog from './components/RecurringEventDialog.tsx';
-import EventForm from './stories/EventForm/EventForm.tsx';
 import CalendarViewControls from './components/CalendarViewControls.tsx';
 import EventList from './components/EventList.tsx';
-import OverlapDialog from './components/OverlapDialog.tsx';
 import NotificationAlerts from './components/NotificationAlerts.tsx';
+import OverlapDialog from './components/OverlapDialog.tsx';
+import RecurringEventDialog from './components/RecurringEventDialog.tsx';
 import { useCalendarView } from './hooks/useCalendarView.ts';
 import { useEventForm } from './hooks/useEventForm.ts';
 import { useEventOperations } from './hooks/useEventOperations.ts';
 import { useNotifications } from './hooks/useNotifications.ts';
 import { useRecurringEventOperations } from './hooks/useRecurringEventOperations.ts';
 import { useSearch } from './hooks/useSearch.ts';
+import EventForm from './stories/EventForm/EventForm.tsx';
 import { Event, EventForm as EventFormType } from './types.ts';
 import { findOverlappingEvents } from './utils/eventOverlap.ts';
 
@@ -116,6 +116,7 @@ function App() {
           enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
           await fetchEvents();
         } catch (error) {
+          console.error(error);
           enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
         }
       } else {
@@ -239,6 +240,7 @@ function App() {
       enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
       await fetchEvents();
     } catch (error) {
+      console.error(error);
       enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
     }
   };
@@ -270,6 +272,7 @@ function App() {
           variant: 'success',
         });
       } catch (error) {
+        console.error(error);
         enqueueSnackbar('일정 저장에 실패했습니다.', { variant: 'error' });
       }
       setPendingEvent(null);
@@ -307,6 +310,7 @@ function App() {
       enqueueSnackbar('일정이 이동되었습니다.', { variant: 'success' });
       await fetchEvents();
     } catch (error) {
+      console.error(error);
       enqueueSnackbar('일정 이동에 실패했습니다.', { variant: 'error' });
     }
 

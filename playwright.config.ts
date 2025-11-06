@@ -71,9 +71,24 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /* 로컬 개발 환경에서는 수동으로 서버를 시작하세요:
+   * Terminal 1: pnpm run server:e2e
+   * Terminal 2: pnpm run start
+   *
+   * CI/CD 환경에서는 아래 webServer 설정의 주석을 해제하세요.
+   */
+  // webServer: [
+  //   {
+  //     command: 'TEST_ENV=e2e node server.js',
+  //     url: 'http://localhost:3000',
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 120 * 1000,
+  //   },
+  //   {
+  //     command: 'pnpm run start',
+  //     url: 'http://localhost:5174',
+  //     reuseExistingServer: !process.env.CI,
+  //     timeout: 120 * 1000,
+  //   },
+  // ],
 });

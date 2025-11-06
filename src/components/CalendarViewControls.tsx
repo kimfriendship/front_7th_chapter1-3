@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-import { IconButton, MenuItem, Select, Stack, Typography } from '@mui/material';
 import {
   DndContext,
   DragEndEvent,
@@ -8,6 +6,9 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { IconButton, MenuItem, Select, Stack, Typography } from '@mui/material';
+
 import MonthlyCalendar from '../stories/MonthlyCalendar/MonthlyCalendar.tsx';
 import WeeklyCalendar from '../stories/WeeklyCalendar/WeeklyCalendar.tsx';
 import { Event } from '../types.ts';

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 import { clearE2EDatabase } from './helpers/reset-db';
 
-test.describe.serial('검색 및 필터링', () => {
+test.describe('검색 및 필터링', () => {
   test.beforeEach(async ({ page }) => {
     // e2e.json 파일을 빈 상태로 초기화 (매번 새로운 일정 생성)
     clearE2EDatabase();

@@ -1,4 +1,5 @@
 import { FormControl, FormLabel, Stack, TextField, Typography } from '@mui/material';
+
 import EventItem from './EventItem.tsx';
 import { Event } from '../types.ts';
 

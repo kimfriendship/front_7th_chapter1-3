@@ -8,10 +8,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { formatDate, formatMonth, getEventsForDay, getWeeksAtMonth } from '../../utils/dateUtils';
+
 import { weekDays } from '../../constants';
-import CalendarCell from '../CalendarCell/CalendarCell';
 import { Event } from '../../types';
+import { formatDate, formatMonth, getEventsForDay, getWeeksAtMonth } from '../../utils/dateUtils';
+import CalendarCell from '../CalendarCell/CalendarCell';
 
 interface MonthlyCalendarProps {
   currentDate: Date;

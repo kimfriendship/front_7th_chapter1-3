@@ -10,10 +10,7 @@ export function resetE2EDatabase() {
     path.join(process.cwd(), 'e2e/fixtures/initial-data.json'),
     'utf8'
   );
-  fs.writeFileSync(
-    path.join(process.cwd(), 'src/__mocks__/response/e2e.json'),
-    initialData
-  );
+  fs.writeFileSync(path.join(process.cwd(), 'src/__mocks__/response/e2e.json'), initialData);
 }
 
 /**
@@ -21,9 +18,5 @@ export function resetE2EDatabase() {
  */
 export function clearE2EDatabase() {
   const emptyData = JSON.stringify({ events: [] }, null, 2);
-  fs.writeFileSync(
-    path.join(process.cwd(), 'src/__mocks__/response/e2e.json'),
-    emptyData
-  );
+  fs.writeFileSync(path.join(process.cwd(), 'src/__mocks__/response/e2e.json'), emptyData);
 }
-

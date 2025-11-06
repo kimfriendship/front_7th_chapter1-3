@@ -1,9 +1,10 @@
 import { Button, Stack, Typography } from '@mui/material';
-import TextInput from '../TextInput/TextInput.tsx';
-import SelectInput from '../SelectInput/SelectInput.tsx';
-import CheckboxInput from '../CheckboxInput/CheckboxInput.tsx';
+
 import { categories, notificationOptions } from '../../constants.ts';
 import { RepeatType } from '../../types.ts';
+import CheckboxInput from '../CheckboxInput/CheckboxInput.tsx';
+import SelectInput from '../SelectInput/SelectInput.tsx';
+import TextInput from '../TextInput/TextInput.tsx';
 
 export interface EventFormProps {
   maxWidth?: number;

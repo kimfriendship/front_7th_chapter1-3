@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 import { resetE2EDatabase } from './helpers/reset-db';
 
-test.describe.serial('일정 겹침 처리', () => {
+test.describe('일정 겹침 처리', () => {
   test.beforeEach(async ({ page }) => {
     // e2e.json 파일을 초기 상태로 리셋
     resetE2EDatabase();

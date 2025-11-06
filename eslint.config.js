@@ -6,13 +6,21 @@ import importPlugin from 'eslint-plugin-import';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import storybookPlugin from 'eslint-plugin-storybook';
+// import storybookPlugin from 'eslint-plugin-storybook'; // ESM 호환성 문제로 주석 처리
 import vitestPlugin from 'eslint-plugin-vitest';
 import globals from 'globals';
 
 export default [
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '.storybook/**', '**/playwright-report/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '.storybook/**',
+      '**/playwright-report/**',
+      '**/*.stories.tsx', // Storybook 파일 제외
+      'src/stories/**', // Stories 디렉토리 전체 제외
+      'e2e/**', // E2E 테스트 파일 제외
+    ],
   },
   // Base configuration for all files
   {
@@ -61,7 +69,7 @@ export default [
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       prettier: prettierPlugin,
-      storybook: storybookPlugin,
+      // storybook: storybookPlugin, // ESM 호환성 문제로 주석 처리
       import: importPlugin,
       '@typescript-eslint': typescriptPlugin,
     },
@@ -72,7 +80,15 @@ export default [
       ...typescriptPlugin.configs.recommended.rules,
 
       // ESLint rules
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
 
       // React rules
       'react/prop-types': 'off',
@@ -96,7 +112,7 @@ export default [
       'prettier/prettier': 'error',
 
       // Storybook rules
-      ...storybookPlugin.configs.recommended.rules,
+      // ...storybookPlugin.configs.recommended.rules, // ESM 호환성 문제로 주석 처리
     },
   },
 

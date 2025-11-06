@@ -8,10 +8,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import CalendarCell from '../CalendarCell/CalendarCell';
-import { formatWeek, getWeekDates } from '../../utils/dateUtils';
+
 import { weekDays } from '../../constants';
 import { Event } from '../../types';
+import { formatWeek, getWeekDates } from '../../utils/dateUtils';
+import CalendarCell from '../CalendarCell/CalendarCell';
 
 interface WeeklyCalendarProps {
   currentDate: Date;

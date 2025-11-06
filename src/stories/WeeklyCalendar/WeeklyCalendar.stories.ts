@@ -1,7 +1,7 @@
 import type { StoryObj } from '@storybook/react-vite';
+import { Event } from '../../types';
 
 import WeeklyCalendar from './WeeklyCalendar';
-import { Event } from '../../types';
 
 const meta = {
   title: 'Example/WeeklyCalendar',

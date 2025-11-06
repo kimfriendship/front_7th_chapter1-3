@@ -1,5 +1,6 @@
-import { TableCell, Typography } from '@mui/material';
 import { useDroppable } from '@dnd-kit/core';
+import { TableCell, Typography } from '@mui/material';
+
 import { Event } from '../../types';
 import { formatDate } from '../../utils/dateUtils';
 import EventBar from '../EventBar/EventBar';
@@ -10,7 +11,6 @@ interface CalendarCellProps {
   notifiedEvents: Event['id'][];
   holiday?: string;
   currentDate: Date;
-  onDropEvent?: (eventId: string, targetDate: string) => void;
   onDateClick?: (date: string) => void;
   isEditing?: boolean;
 }
@@ -21,7 +21,6 @@ export default function CalendarCell({
   events,
   notifiedEvents,
   currentDate,
-  onDropEvent,
   onDateClick,
   isEditing = false,
 }: CalendarCellProps) {

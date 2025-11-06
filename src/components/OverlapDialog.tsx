@@ -1,4 +1,5 @@
 import { DialogContentText, Typography } from '@mui/material';
+
 import Dialog from '../stories/Dialog/Dialog.tsx';
 import { Event } from '../types.ts';
 
