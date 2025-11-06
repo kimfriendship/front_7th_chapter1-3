@@ -72,6 +72,7 @@ function App() {
     eventId: string;
     targetDate: string;
   } | null>(null);
+  const [pendingEvent, setPendingEvent] = useState<Event | EventFormType | null>(null);
   const [isRecurringDialogOpen, setIsRecurringDialogOpen] = useState(false);
   const [pendingRecurringEdit, setPendingRecurringEdit] = useState<Event | null>(null);
   const [pendingRecurringDelete, setPendingRecurringDelete] = useState<Event | null>(null);
@@ -245,6 +246,37 @@ function App() {
   const handleOverlapConfirm = async () => {
     setIsOverlapDialogOpen(false);
 
+    // 폼에서 생성/수정하는 일정이 pending 중인 경우
+    if (pendingEvent) {
+      try {
+        // 수정 모드인 경우
+        if (editingEvent) {
+          if (
+            editingEvent.repeat.type !== 'none' &&
+            editingEvent.repeat.interval > 0 &&
+            recurringEditMode !== null
+          ) {
+            await handleRecurringEdit(pendingEvent as Event, recurringEditMode);
+            setRecurringEditMode(null);
+          } else {
+            await saveEvent(pendingEvent);
+          }
+        } else {
+          // 생성 모드
+          await saveEvent(pendingEvent);
+        }
+        resetForm();
+        enqueueSnackbar(editingEvent ? '일정이 수정되었습니다.' : '일정이 추가되었습니다.', {
+          variant: 'success',
+        });
+      } catch (error) {
+        enqueueSnackbar('일정 저장에 실패했습니다.', { variant: 'error' });
+      }
+      setPendingEvent(null);
+      return;
+    }
+
+    // 드래그 앤 드롭으로 이동하는 일정이 pending 중인 경우
     if (!pendingMoveEvent) return;
 
     const eventToMove = events.find((e) => e.id === pendingMoveEvent.eventId);
@@ -284,6 +316,7 @@ function App() {
   const handleOverlapCancel = () => {
     setIsOverlapDialogOpen(false);
     setPendingMoveEvent(null);
+    setPendingEvent(null);
   };
 
   const addOrUpdateEvent = async () => {
@@ -322,6 +355,7 @@ function App() {
     // 수정
     if (editingEvent) {
       if (hasOverlapEvent) {
+        setPendingEvent(eventData);
         setOverlappingEvents(overlapping);
         setIsOverlapDialogOpen(true);
         return;
@@ -351,6 +385,7 @@ function App() {
     }
 
     if (hasOverlapEvent) {
+      setPendingEvent(eventData);
       setOverlappingEvents(overlapping);
       setIsOverlapDialogOpen(true);
       return;
