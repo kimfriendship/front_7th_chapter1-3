@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 import { clearE2EDatabase } from './helpers/reset-db';
 
-test.describe('검색 및 필터링', () => {
+test.describe.serial('검색 및 필터링', () => {
   test.beforeEach(async ({ page }) => {
     // e2e.json 파일을 빈 상태로 초기화 (매번 새로운 일정 생성)
     clearE2EDatabase();
@@ -11,6 +11,9 @@ test.describe('검색 및 필터링', () => {
     const fixedTime = new Date('2025-11-15T09:00:00');
     await page.clock.install({ time: fixedTime });
     await page.clock.resume();
+
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
     // 초기 토스트 사라질 때까지 대기
     await page.waitForTimeout(1000);

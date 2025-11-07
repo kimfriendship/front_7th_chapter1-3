@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+/*
+ * Readpathom file
+ *thhub.com/motdotla/dotenv
  */
 // import dotenv from 'dotenv';
 // import path from 'path';
@@ -13,13 +13,13 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e',
-  /* Run tests in files in serial (순차 실행) */
-  fullyParallel: false,
+  /* Run tests in files in parallel */
+  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests - 1 worker for serial execution */
+  /* Opt out of parallel tests on CI. */
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
@@ -39,15 +39,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
@@ -71,24 +71,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  /* 로컬 개발 환경에서는 수동으로 서버를 시작하세요:
-   * Terminal 1: pnpm run server:e2e
-   * Terminal 2: pnpm run start
-   *
-   * CI/CD 환경에서는 아래 webServer 설정의 주석을 해제하세요.
-   */
-  // webServer: [
-  //   {
-  //     command: 'TEST_ENV=e2e node server.js',
-  //     url: 'http://localhost:3000',
-  //     reuseExistingServer: !process.env.CI,
-  //     timeout: 120 * 1000,
-  //   },
-  //   {
-  //     command: 'pnpm run start',
-  //     url: 'http://localhost:5174',
-  //     reuseExistingServer: !process.env.CI,
-  //     timeout: 120 * 1000,
-  //   },
-  // ],
+  webServer: {
+    command: 'pnpm run dev',
+    url: 'http://localhost:5174',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
+    env: { TEST_ENV: 'e2e' },
+  },
 });

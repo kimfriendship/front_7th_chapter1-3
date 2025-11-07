@@ -4,7 +4,7 @@ import path from 'path';
 
 import { resetE2EDatabase } from './helpers/reset-db';
 
-test.describe('드래그 앤 드롭', () => {
+test.describe.serial('드래그 앤 드롭', () => {
   test.beforeEach(async ({ page }) => {
     // e2e.json 파일을 초기 상태로 리셋
     resetE2EDatabase();
@@ -29,6 +29,7 @@ test.describe('드래그 앤 드롭', () => {
     fs.writeFileSync(e2eDataPath, JSON.stringify(currentData, null, 2));
 
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
     // 시간을 고정 (2025-11-15 09:00:00)
     const fixedTime = new Date('2025-11-04T09:00:00');

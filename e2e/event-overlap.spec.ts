@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 import { resetE2EDatabase } from './helpers/reset-db';
 
-test.describe('일정 겹침 처리', () => {
+test.describe.serial('일정 겹침 처리', () => {
   test.beforeEach(async ({ page }) => {
     // e2e.json 파일을 초기 상태로 리셋
     resetE2EDatabase();
@@ -11,6 +11,9 @@ test.describe('일정 겹침 처리', () => {
     const fixedTime = new Date('2025-11-15T09:00:00');
     await page.clock.install({ time: fixedTime });
     await page.clock.resume();
+
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
     // 초기 토스트 사라질 때까지 대기
     await page.waitForTimeout(1000);
